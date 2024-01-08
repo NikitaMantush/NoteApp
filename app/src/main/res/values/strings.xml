@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name" translatable="false">NoteApp</string>
+    <string name="discover_platform">Discover the platform</string>
+    <string name="login">Log-in</string>
+    <string name="signup">Sign-up</string>
+    <string name="account_check">You have an account?</string>
+    <string name="return_signup">Return to Sign-up</string>
+    <string name="skip">Skip</string>
+    <string name="tutor_page_1_discover">Find projects from companies\n everywhere in the word</string>
+    <string name="tutor_page_2_discover">Work hard and level up!</string>
+    <string name="tutor_page_3_discover">Enjoy your progress!</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="email_empty">Enter your email</string>
+    <string name="email_incorrect_format">Incorrect email format</string>
+    <string name="password_empty">Enter your password</string>
+    <string name="password_length">Password must contain from 6 to 50 characters</string>
+    <string name="password_special_symbol">Password requires uppercase, lowercase, digit, and special character</string>
+    <string name="field_empty">Field cannot be empty</string>
+    <string name="field_length">Field must contain from 3 to 255 characters</string>
+    <string name="success">Success</string>
+    <string name="failed">Failed</string>
+</resources>

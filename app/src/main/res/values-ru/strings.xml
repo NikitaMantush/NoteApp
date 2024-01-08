@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="discover_platform">Изучить платформу</string>
+    <string name="login">Войти</string>
+    <string name="signup">Регистрация</string>
+    <string name="account_check">У вас уже есть аккаунт? </string>
+    <string name="return_signup">Вернуться к регистрации</string>
+    <string name="skip">Пропустить</string>
+    <string name="tutor_page_1_discover">Найди проекты от компаний\n по всему миру</string>
+    <string name="tutor_page_2_discover">Работай усердно и повышай свой уровень!</string>
+    <string name="tutor_page_3_discover">Наслаждайся своим прогрессом!</string>
+    <string name="email">Адрес эл. почты</string>
+    <string name="password">Пароль</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="email_empty">Введите адрес эл. почты</string>
+    <string name="email_incorrect_format">Неверный формат электронной почты</string>
+    <string name="password_empty">Введите папроль</string>
+    <string name="password_length">Пароль должен содержать от 6 до 50 символов</string>
+    <string name="password_special_symbol">Пароль должен включать прописные и строчные буквы, цифры и специальный символ</string>
+    <string name="field_empty">Поле не может быть пустым</string>
+    <string name="field_length">Поле должно содержать от 3 до 255 символов</string>
+    <string name="success">Успех</string>
+    <string name="failed">Неудача</string>
+</resources>
