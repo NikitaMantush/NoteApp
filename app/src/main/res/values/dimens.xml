@@ -3,16 +3,16 @@
 
     <dimen name="default_text_size">18sp</dimen>
 
-
-
     <dimen name="circle_indicator_height">48dp</dimen>
+
+    <dimen name="error_margin">-5dp</dimen>
 
 
 
     <!-- Logo -->
-    <dimen name="logo_text_size">60sp</dimen>
+    <dimen name="app_name_text_size">60sp</dimen>
     <dimen name="logo_width">270dp</dimen>
-    <dimen name="sign_log_title_text_size">27sp</dimen>
+    <dimen name="logo_text_size">28sp</dimen>
     <dimen name="tutor_title_text_size">32sp</dimen>
 
 
@@ -27,4 +27,15 @@
     <dimen name="login_signup_layout_width">343dp</dimen>
     <dimen name="login_layout_height">263dp</dimen>
     <dimen name="signup_layout_height">435dp</dimen>
+
+    <!-- Add_note layout -->
+    <dimen name="dp_18">18dp</dimen>
+    <dimen name="dp_30">30dp</dimen>
+    <dimen name="dp_38">38dp</dimen>
+    <dimen name="dp_14">14dp</dimen>
+    <dimen name="dp_70">70dp</dimen>
+    <dimen name="note_title_height">76dp</dimen>
+    <dimen name="note_message_layout_height">240dp</dimen>
+    <dimen name="note_message_height">220dp</dimen>
+
 </resources>

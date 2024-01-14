@@ -22,4 +22,11 @@
     <string name="field_length">Field must contain from 3 to 255 characters</string>
     <string name="success">Success</string>
     <string name="failed">Failed</string>
+    <string name="back">Back</string>
+    <string name="add_note">Add note</string>
+    <string name="title">Title</string>
+    <string name="message">Message</string>
+    <string name="add">Add</string>
+    <string name="logout">Logout</string>
+    <string name="add_new">Add new</string>
 </resources>
