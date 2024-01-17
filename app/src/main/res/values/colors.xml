@@ -7,4 +7,5 @@
     <color name="error">#FFFF0000</color>
     <color name="purple">#9378FF</color>
     <color name="field_color">#BFA700</color>
+    <color name="action_textview_color">#99879D</color>
 </resources>

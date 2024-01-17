@@ -14,11 +14,24 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class SignUpActivity : AppCompatActivity() {
+
+    private var firstNameInputLayout: TextInputLayout? = null
+    private var firstNameEditText: TextInputEditText? = null
+
+    private var lastNameInputLayout: TextInputLayout? = null
+    private var lastNameEditText: EditText? = null
+
+    private var emailInputLayout: TextInputLayout? = null
+    private var emailEditText: TextInputEditText? = null
+
+    private var passwordInputLayout: TextInputLayout? = null
+    private var passwordEditText: EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,133 +41,49 @@ class SignUpActivity : AppCompatActivity() {
         )
         setContentView(R.layout.activity_signup)
         findViewById<TextView>(R.id.signup_login_title).setOnClickListener {
-            val intent = Intent(this, LogInActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, LogInActivity::class.java))
         }
 
-        val editFirstName: TextInputEditText = findViewById(R.id.signup_first_name_edit)
-        val editFirstNameL: TextInputLayout = findViewById(R.id.signup_first_name_input)
-        val editLastName: TextInputEditText = findViewById(R.id.signup_last_name_edit)
-        val editLastNameL: TextInputLayout = findViewById(R.id.signup_last_name_input)
+        lastNameInputLayout = findViewById(R.id.signup_last_name_input)
+        lastNameEditText = findViewById(R.id.signup_last_name_edit)
+        firstNameInputLayout = findViewById(R.id.signup_first_name_input)
+        firstNameEditText = findViewById(R.id.signup_first_name_edit)
+        emailInputLayout = findViewById(R.id.signup_email_input)
+        emailEditText = findViewById(R.id.signup_email_edit)
+        passwordInputLayout = findViewById(R.id.signup_password_input)
+        passwordEditText = findViewById(R.id.signup_password_edit)
         val signUpButton: Button = findViewById(R.id.signup_button)
 
-        editFirstName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {
-                validateName(editFirstName, editFirstNameL)
-            }
-        })
-        editLastName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {
-                validateName(editLastName, editLastNameL)
-            }
-        })
+        firstNameEditText?.doAfterTextChanged {
+            validateName(this, firstNameInputLayout, firstNameEditText?.text.toString())
+        }
+        lastNameEditText?.doAfterTextChanged {
+            validateName(this, lastNameInputLayout, lastNameEditText?.text.toString())
+        }
+        emailEditText?.doAfterTextChanged {
+            validateEmail(this, emailInputLayout, emailEditText?.text.toString())
+        }
+        passwordEditText?.doAfterTextChanged {
+            validatePassword(this, passwordInputLayout, passwordEditText?.text.toString())
+        }
 
-        val editEmail: TextInputEditText = findViewById(R.id.signup_email_edit)
-        val editEmailL: TextInputLayout = findViewById(R.id.signup_email_input)
-
-        editEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {
-                validateEmail(editEmail, editEmailL)
-            }
-        })
-        val editPassword: TextInputEditText = findViewById(R.id.signup_password_edit)
-        val editPasswordL: TextInputLayout = findViewById(R.id.signup_password_input)
-
-        editPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {
-                validatePassword(editPassword, editPasswordL)
-            }
-        })
         signUpButton.setOnClickListener {
-            val isEmailValid = validateEmail(editEmail, editEmailL)
-            val isPasswordValid = validatePassword(editPassword, editPasswordL)
-            val isFirstNameValid = validateName(editFirstName, editFirstNameL)
-            val isLastNameValid = validateName(editLastName, editLastNameL)
-
-            if (isEmailValid && isPasswordValid && isFirstNameValid && isLastNameValid) {
+            if (validateSignupInput()) {
                 Toast.makeText(this, getString(R.string.success), Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, NoteListActivity::class.java))
+
             } else {
                 Toast.makeText(this, getString(R.string.failed), Toast.LENGTH_LONG).show()
             }
         }
-
     }
 
-    private fun validateEmail(editEmail: TextInputEditText, editEmailL: TextInputLayout): Boolean {
-        val emailPattern = Regex("[a-zA-Z\\d._-]+@[a-z]+\\.+[a-z]+")
-        return when {
-            editEmail.text.toString().trim().isEmpty() -> {
-                editEmailL.error = getString(R.string.email_empty)
-                false
-            }
+    private fun validateSignupInput(): Boolean {
+        val isEmailValid = validateEmail(this, emailInputLayout, emailEditText?.text.toString())
+        val isPasswordValid = validatePassword(this, passwordInputLayout, passwordEditText?.text.toString())
+        val isFirstNameValid = validateName(this, firstNameInputLayout, firstNameEditText?.text.toString())
+        val isLastNameValid = validateName(this, lastNameInputLayout, lastNameEditText?.text.toString())
 
-            !editEmail.text.toString().trim().matches(emailPattern) -> {
-                editEmailL.error = getString(R.string.email_incorrect_format)
-                false
-            }
-
-            else -> {
-                editEmailL.error = null
-                true
-            }
-        }
-    }
-
-    private fun validatePassword(
-        editPassword: TextInputEditText,
-        editPasswordL: TextInputLayout
-    ): Boolean {
-        val passwordPattern =
-            Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#\$%^&*()_+{}\\[\\]:;<>,.?~\\\\/-])")
-        val password = editPassword.text.toString().trim()
-        return when {
-            password.isEmpty() -> {
-                editPasswordL.error = getString(R.string.password_empty)
-                false
-            }
-
-            password.length < 6 || password.length > 50 -> {
-                editPasswordL.error = getString(R.string.password_length)
-                false
-            }
-
-            !passwordPattern.containsMatchIn(password) -> {
-                editPasswordL.error = getString(R.string.password_special_symbol)
-                false
-            }
-
-            else -> {
-                editPasswordL.error = null
-                true
-            }
-        }
-    }
-
-    private fun validateName(editName: TextInputEditText, editNameL: TextInputLayout): Boolean {
-        val name = editName.text.toString().trim()
-        return when {
-            name.isEmpty() -> {
-                editNameL.error = getString(R.string.field_empty)
-                false
-            }
-
-            name.length < 3 || name.length > 255 -> {
-                editNameL.error = getString(R.string.field_length)
-                false
-            }
-
-            else -> {
-                editNameL.error = null
-                true
-            }
-        }
+        return isEmailValid && isPasswordValid && isFirstNameValid && isLastNameValid
     }
 }

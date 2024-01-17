@@ -6,13 +6,23 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class LogInActivity : AppCompatActivity() {
+
+    private var emailInputLayout: TextInputLayout? = null
+
+    private var emailEditText: TextInputEditText? = null
+
+    private var passwordInputLayout: TextInputLayout? = null
+
+    private var passwordEditText: EditText? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
@@ -20,68 +30,40 @@ class LogInActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
         setContentView(R.layout.activity_login)
-        findViewById<TextView>(R.id.return_signup_title).setOnClickListener{
-            val intent = Intent(this, SignUpActivity::class.java)
-            startActivity(intent)
+        findViewById<TextView>(R.id.return_signup_title).setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java))
         }
-        val editEmail: TextInputEditText = findViewById(R.id.login_email_edit)
-        val editEmailL: TextInputLayout = findViewById(R.id.login_email_input)
-        val editPassword: TextInputEditText = findViewById(R.id.login_password_edit)
-        val editPasswordL: TextInputLayout = findViewById(R.id.login_password_input)
+        findViewById<TextView>(R.id.login_button).setOnClickListener {
+            startActivity(Intent(this, NoteListActivity::class.java))
+        }
+        emailInputLayout = findViewById(R.id.login_email_input)
+        emailEditText = findViewById(R.id.login_email_edit)
+        passwordInputLayout = findViewById(R.id.login_password_input)
+        passwordEditText = findViewById(R.id.login_password_edit)
         val logInButton: Button = findViewById(R.id.login_button)
 
-        editEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {
-                validateEmail(editEmail, editEmailL)
-            }
-        })
-        editPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(p0: Editable?) {
-                validatePassword(editPassword, editPasswordL)
-            }
-        })
+        emailEditText?.doAfterTextChanged {
+            validateNote(this, emailInputLayout, emailEditText?.text.toString())
+        }
+        passwordEditText?.doAfterTextChanged {
+            validateNote(this, passwordInputLayout, passwordEditText?.text.toString())
+        }
+
         logInButton.setOnClickListener {
-            val isEmailValid = validateEmail(editEmail, editEmailL)
-            val isPasswordValid = validatePassword(editPassword, editPasswordL)
-            if (isEmailValid && isPasswordValid)
-            {
+            if (validateLoginInput()) {
                 Toast.makeText(this, getString(R.string.success), Toast.LENGTH_LONG).show()
+                startActivity(Intent(this, NoteListActivity::class.java))
             } else {
                 Toast.makeText(this, getString(R.string.failed), Toast.LENGTH_LONG).show()
             }
         }
     }
-    private fun validateEmail(editEmail: TextInputEditText, editEmailL: TextInputLayout): Boolean {
-        return when {
-            editEmail.text.toString().trim().isEmpty() -> {
-                editEmailL.error = getString(R.string.field_empty)
-                false
-            }
-            else -> {
-                editEmailL.error = null
-                true
-            }
-        }
+
+    private fun validateLoginInput(): Boolean {
+        val isEmailValid = validateNote(this, emailInputLayout, emailEditText?.text.toString())
+        val isPasswordValid =
+            validateNote(this, passwordInputLayout, passwordEditText?.text.toString())
+        return isEmailValid && isPasswordValid
     }
 
-    private fun validatePassword(
-        editPassword: TextInputEditText,
-        editPasswordL: TextInputLayout
-    ): Boolean {
-        val password = editPassword.text.toString().trim()
-        return when {
-            password.isEmpty() -> {
-                editPasswordL.error = getString(R.string.field_empty)
-                false
-            }
-            else -> {
-                editPasswordL.error = null
-                true
-            }
-        }
-    }
 }

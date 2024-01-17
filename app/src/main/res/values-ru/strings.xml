@@ -22,4 +22,11 @@
     <string name="field_length">Поле должно содержать от 3 до 255 символов</string>
     <string name="success">Успех</string>
     <string name="failed">Неудача</string>
+    <string name="back">Назад</string>
+    <string name="add_note">Добавить заметку</string>
+    <string name="title">Заголовок</string>
+    <string name="message">Сообщение</string>
+    <string name="add">Добавить</string>
+    <string name="logout">Выйти</string>
+    <string name="add_new">Добавить</string>
 </resources>
