@@ -1,6 +1,8 @@
 package com.noteappbymantushnikita.mobile
 
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
@@ -9,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.noteappbymantushnikita.mobile.model.Note
+import com.noteappbymantushnikita.mobile.model.NoteDB
+import java.util.Date
+import java.util.Locale
 
 class AddNoteActivity : AppCompatActivity() {
 
@@ -26,6 +32,9 @@ class AddNoteActivity : AppCompatActivity() {
         titleInputLayout = findViewById(R.id.note_title_layout)
         messageEditText = findViewById(R.id.note_message)
         messageInputLayout = findViewById(R.id.note_message_layout)
+        val currentDate: Date = Calendar.getInstance().time
+        val formatDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).
+        format(currentDate)
         findViewById<TextView>(R.id.back_button_AddNoteActivity).setOnClickListener {
             startActivity(Intent(this, NoteListActivity::class.java))
         }
@@ -33,9 +42,10 @@ class AddNoteActivity : AppCompatActivity() {
             if (validateNoteInput()) {
                 Toast.makeText(this, getString(R.string.success), Toast.LENGTH_LONG).show()
                 NoteDB.noteList.add(
-                    Note(
+                    Note(NoteDB.id,
                         titleEditText?.text.toString(),
-                        messageEditText?.text.toString()
+                        messageEditText?.text.toString(),
+                        formatDate
                     )
                 )
                 startActivity(Intent(this, NoteListActivity::class.java))
