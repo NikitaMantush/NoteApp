@@ -4,5 +4,6 @@
     <color name="error">#FFFF0000</color>
     <color name="button_color">#B5C900</color>
     <color name="field_color">#00085B</color>
-
+    <color name="green">#008000</color>
+    <color name="list_item_color">@color/black</color>
 </resources>

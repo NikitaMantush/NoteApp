@@ -8,4 +8,6 @@
     <color name="purple">#9378FF</color>
     <color name="field_color">#BFA700</color>
     <color name="action_textview_color">#99879D</color>
+    <color name="green">#008000</color>
+    <color name="list_item_color">@color/white</color>
 </resources>

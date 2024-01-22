@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/back_button_AddNoteActivity"
@@ -26,16 +27,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/back_button_AddNoteActivity" />
 
+    <TextView
+        android:id="@+id/set_date_button"
+        style="@style/TextViewAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_18"
+        tools:text = "Set Date"
+        android:drawableEnd="@drawable/ic_calendar"
+        android:drawablePadding="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_note_title" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/note_title_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/note_title_height"
         android:layout_marginStart="@dimen/dp_18"
-        android:layout_marginTop="@dimen/dp_38"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="@dimen/dp_18"
         app:hintEnabled="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_note_title">
+        app:layout_constraintTop_toBottomOf="@id/set_date_button">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/note_title"
@@ -47,12 +60,13 @@
             android:paddingStart="@dimen/dp_14" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/note_message_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/note_message_layout_height"
         android:layout_marginStart="@dimen/dp_18"
-        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="@dimen/dp_18"
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
