@@ -5,13 +5,10 @@ import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import com.noteappbymantushnikita.mobile.databinding.ActivityAddNoteBinding
 import com.noteappbymantushnikita.mobile.model.Note
 import com.noteappbymantushnikita.mobile.model.NoteDB
 import java.util.Date
@@ -19,45 +16,29 @@ import java.util.Locale
 
 class AddNoteActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityAddNoteBinding
     private val calendar = Calendar.getInstance()
-
-    private var titleInputLayout: TextInputLayout? = null
-
-    private var titleEditText: TextInputEditText? = null
-
-    private var messageInputLayout: TextInputLayout? = null
-
-    private var messageEditText: EditText? = null
-
-    private lateinit var textViewDate: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_note)
-        titleEditText = findViewById(R.id.note_title)
-        titleInputLayout = findViewById(R.id.note_title_layout)
-        messageEditText = findViewById(R.id.note_message)
-        messageInputLayout = findViewById(R.id.note_message_layout)
-        val currentDate: Date = Calendar.getInstance().time
-        val formatDate: String = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).
-        format(currentDate)
-        textViewDate = findViewById<TextView?>(R.id.set_date_button).apply {
-            text = formatDate
-        }
-        textViewDate.setOnClickListener {
+        binding = ActivityAddNoteBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.setDateButton.setOnClickListener {
             showDatePickerDialog()
         }
-        findViewById<TextView>(R.id.back_button_AddNoteActivity).setOnClickListener {
+        binding.backButtonAddNoteActivity.setOnClickListener {
             startActivity(Intent(this, NoteListActivity::class.java))
         }
-        findViewById<TextView>(R.id.add_button).setOnClickListener {
+
+        binding.addButton.setOnClickListener {
             if (validateNoteInput()) {
                 Toast.makeText(this, getString(R.string.success), Toast.LENGTH_LONG).show()
                 NoteDB.noteList.add(
-                    Note(NoteDB.id,
-                        titleEditText?.text.toString(),
-                        messageEditText?.text.toString(),
-                        textViewDate.text.toString()
+                    Note(
+                        NoteDB.id,
+                        binding.noteTitle.text.toString(),
+                        binding.noteMessage.text.toString(),
+                        binding.setDateButton.text.toString()
                     )
                 )
                 startActivity(Intent(this, NoteListActivity::class.java))
@@ -65,26 +46,35 @@ class AddNoteActivity : AppCompatActivity() {
                 Toast.makeText(this, getString(R.string.failed), Toast.LENGTH_LONG).show()
             }
         }
-        titleEditText?.doAfterTextChanged {
-            validateNote(this, titleInputLayout, titleEditText?.text.toString())
+
+        binding.noteTitle.doAfterTextChanged {
+            validateNoteInput()
         }
-        messageEditText?.doAfterTextChanged {
-            validateNote(this, messageInputLayout, messageEditText?.text.toString())
+
+        binding.noteMessage.doAfterTextChanged {
+            validateNoteInput()
         }
+        val currentDate: Date = Calendar.getInstance().time
+        val formatDate: String =
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(currentDate)
+        binding.setDateButton.text = formatDate
     }
 
     private fun validateNoteInput(): Boolean {
-        val isValidTitle = validateNote(this, titleInputLayout, titleEditText?.text.toString())
-        val isValidMessage = validateNote(this, messageInputLayout, messageEditText?.text.toString())
+        val isValidTitle =
+            validateNote(this, binding.noteTitleLayout, binding.noteTitle.text.toString())
+        val isValidMessage =
+            validateNote(this, binding.noteMessageLayout, binding.noteMessage.text.toString())
         return isValidTitle && isValidMessage
     }
+
     private fun showDatePickerDialog() {
         val datePickerDialog = DatePickerDialog(
             this,
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 calendar.set(year, monthOfYear, dayOfMonth)
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                textViewDate.text = dateFormat.format(calendar.time)
+                binding.setDateButton.text = dateFormat.format(calendar.time)
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),

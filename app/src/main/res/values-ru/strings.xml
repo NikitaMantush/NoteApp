@@ -29,4 +29,8 @@
     <string name="add">Добавить</string>
     <string name="logout">Выйти</string>
     <string name="add_new">Добавить</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
+    <string name="view">Просмотр</string>
+    <string name="options">Опции</string>
 </resources>

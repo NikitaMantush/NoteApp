@@ -2,28 +2,30 @@ package com.noteappbymantushnikita.mobile
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.noteappbymantushnikita.mobile.databinding.ActivityNoteListBinding
 import com.noteappbymantushnikita.mobile.model.NoteDB
 import com.noteappbymantushnikita.mobile.noteAdapter.NoteListAdapter
 
 class NoteListActivity : AppCompatActivity() {
 
     private lateinit var adapter: NoteListAdapter
+    private lateinit var binding: ActivityNoteListBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_note_list)
-        findViewById<TextView>(R.id.logout_button).setOnClickListener {
+        binding = ActivityNoteListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.logoutButton.setOnClickListener {
             startActivity(Intent(this, LogInActivity::class.java))
         }
-        findViewById<TextView>(R.id.add_note_button).setOnClickListener{
+        binding.addNoteButton.setOnClickListener {
             startActivity(Intent(this, AddNoteActivity::class.java))
         }
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val recyclerView = binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@NoteListActivity)
+        }
         adapter = NoteListAdapter(
             onClick = { noteTitle ->
                 Toast.makeText(this, noteTitle, Toast.LENGTH_LONG).show()
