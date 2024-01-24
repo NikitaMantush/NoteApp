@@ -11,6 +11,8 @@ import com.noteappbymantushnikita.mobile.model.NoteDB
 import com.noteappbymantushnikita.mobile.noteAdapter.NoteListAdapter
 
 class NoteListActivity : AppCompatActivity() {
+
+    private lateinit var adapter: NoteListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_list)
@@ -22,9 +24,15 @@ class NoteListActivity : AppCompatActivity() {
         }
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = NoteListAdapter {
-            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-        }
+        adapter = NoteListAdapter(
+            onClick = { noteTitle ->
+                Toast.makeText(this, noteTitle, Toast.LENGTH_LONG).show()
+            },
+            onDeleteNoteSelected = { note ->
+                NoteDB.noteList.remove(note)
+                adapter.notifyDataSetChanged()
+            }
+        )
         recyclerView.adapter = adapter
         adapter.submitList(NoteDB.noteList)
     }

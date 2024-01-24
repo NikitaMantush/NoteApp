@@ -7,4 +7,7 @@ object NoteDB {
         noteList.add(note)
         id++
     }
+    fun delete(note: Note){
+        noteList.remove(note)
+    }
 }

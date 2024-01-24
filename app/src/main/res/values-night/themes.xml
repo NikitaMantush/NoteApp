@@ -8,4 +8,9 @@
         <item name="fontFamily">@font/roboto_slab_medium</item>
         <item name="android:textSize">18sp</item>
     </style>
+    <style name="Theme.NoteApp.list" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="fontFamily">@font/roboto_slab_medium</item>
+        <item name="android:textSize">@dimen/default_text_size</item>
+        <item name="android:windowBackground">@color/black</item>
+    </style>
 </resources>
