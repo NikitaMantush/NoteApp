@@ -17,11 +17,8 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
         setContentView(binding.root)
-        binding.maimLoginTitle.setOnClickListener {
-            startActivity(Intent(this, LogInActivity::class.java))
-        }
-        binding.discoverPlatformButton.setOnClickListener {
-            startActivity(Intent(this, TutorialActivity::class.java))
-        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, StartFragment())
+            .commit()
     }
 }
