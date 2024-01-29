@@ -1,10 +1,11 @@
-package com.noteappbymantushnikita.mobile
+package com.noteappbymantushnikita.mobile.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentStartBinding
 
 class StartFragment: Fragment() {

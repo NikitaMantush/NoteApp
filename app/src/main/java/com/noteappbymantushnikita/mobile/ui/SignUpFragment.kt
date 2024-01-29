@@ -1,4 +1,4 @@
-package com.noteappbymantushnikita.mobile
+package com.noteappbymantushnikita.mobile.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentSignupBinding
+import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
+import com.noteappbymantushnikita.mobile.validateEmail
+import com.noteappbymantushnikita.mobile.validateName
+import com.noteappbymantushnikita.mobile.validatePassword
 
 class SignUpFragment: Fragment() {
     private var binding: FragmentSignupBinding? = null
