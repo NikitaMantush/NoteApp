@@ -17,16 +17,9 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LogInActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".TutorialActivity"></activity>
-        <activity android:name=".NoteListActivity" android:theme="@style/Theme.NoteApp.list"></activity>
-        <activity android:name=".AddNoteActivity" android:theme="@style/Theme.NoteApp.list"></activity>
-
     </application>
 
 </manifest>

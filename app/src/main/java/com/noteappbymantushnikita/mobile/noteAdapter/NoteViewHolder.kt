@@ -2,25 +2,25 @@ package com.noteappbymantushnikita.mobile.noteAdapter
 
 import android.content.Context
 import android.text.TextUtils
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.ItemNoteBinding
 import com.noteappbymantushnikita.mobile.model.Note
-import com.noteappbymantushnikita.mobile.model.NoteDB
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class NoteViewHolder(private val binding: ItemNoteBinding,
-                     private val context: Context,
-                     private val onDeleteNoteSelected: (note: Note) -> Unit)
-    : RecyclerView.ViewHolder(binding.root) {
-    fun bind(note: Note,
-             onClick: (note: String) -> Unit,
-             ) {
+class NoteViewHolder(
+    private val binding: ItemNoteBinding,
+    private val context: Context,
+    private val onDeleteNoteSelected: (note: Note) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(
+        note: Note,
+        onClick: (note: String) -> Unit
+    ) {
         binding.titleTextView.apply {
             text = note.title
             setOnClickListener {
@@ -36,7 +36,7 @@ class NoteViewHolder(private val binding: ItemNoteBinding,
         }
         binding.dateTextView.text = note.date
 
-        binding.optionsButton.setOnClickListener{
+        binding.optionsButton.setOnClickListener {
             showOptionsDialog(note)
         }
         setItemBackgroundColor(context, note)
@@ -53,6 +53,7 @@ class NoteViewHolder(private val binding: ItemNoteBinding,
             }
         }
     }
+
     private fun getTodayDate(): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return dateFormat.format(Calendar.getInstance().time)
@@ -66,17 +67,23 @@ class NoteViewHolder(private val binding: ItemNoteBinding,
         }
         binding.root.setBackgroundColor(ContextCompat.getColor(context, colorResId))
     }
-    private fun showOptionsDialog(note: Note) {
-        val options = arrayOf("Просмотр", "Редактирование", "Удаление")
 
+    private fun showOptionsDialog(note: Note) {
+        val options = arrayOf(
+            context.getString(R.string.view),
+            context.getString(R.string.edit),
+            context.getString(R.string.delete)
+        )
         MaterialAlertDialogBuilder(context)
-            .setTitle("Опции")
+            .setTitle(context.getString(R.string.options))
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> {
                     }
+
                     1 -> {
                     }
+
                     2 -> {
                         onDeleteNoteSelected(note)
                     }
