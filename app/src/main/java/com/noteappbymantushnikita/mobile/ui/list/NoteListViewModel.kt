@@ -15,5 +15,6 @@ class NoteListViewModel: ViewModel() {
     }
     fun deleteNote(note: Note){
         repository.deleteNote(note)
+        loadListNote()
     }
 }

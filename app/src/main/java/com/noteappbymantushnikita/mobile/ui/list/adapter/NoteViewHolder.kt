@@ -8,9 +8,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.ItemNoteBinding
 import com.noteappbymantushnikita.mobile.model.Note
-import java.text.SimpleDateFormat
+import com.noteappbymantushnikita.mobile.util.date.getSimpleDate
+import com.noteappbymantushnikita.mobile.util.truncateToDay
 import java.util.Calendar
-import java.util.Locale
 
 class NoteViewHolder(
     private val binding: ItemNoteBinding,
@@ -34,7 +34,7 @@ class NoteViewHolder(
                 toggleEllipsize()
             }
         }
-        binding.dateTextView.text = note.date
+        binding.dateTextView.text = note.date.getSimpleDate()
 
         binding.optionsButton.setOnClickListener {
             showOptionsDialog(note)
@@ -54,17 +54,16 @@ class NoteViewHolder(
         }
     }
 
-    private fun getTodayDate(): String {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return dateFormat.format(Calendar.getInstance().time)
-    }
-
     private fun setItemBackgroundColor(context: Context, note: Note) {
+        val todayDate = Calendar.getInstance().apply { truncateToDay() }.time
+        val noteDate = Calendar.getInstance().apply { time = note.date; truncateToDay() }.time
+
         val colorResId = when {
-            (note.date?.compareTo(getTodayDate()) ?: 1) < 0 -> R.color.error
-            note.date == getTodayDate() -> R.color.green
+            noteDate < todayDate -> R.color.error
+            noteDate == todayDate -> R.color.green
             else -> R.color.list_item_color
         }
+
         binding.root.setBackgroundColor(ContextCompat.getColor(context, colorResId))
     }
 

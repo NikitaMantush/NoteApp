@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.noteappbymantushnikita.mobile.R
-import com.noteappbymantushnikita.mobile.ViewPagerAdapter
+import com.noteappbymantushnikita.mobile.ui.list.adapter.ViewPagerAdapter
 import com.noteappbymantushnikita.mobile.databinding.FragmentTutorialBinding
+import com.noteappbymantushnikita.mobile.util.openFragment
 import me.relex.circleindicator.CircleIndicator3
 
 class TutorialFragment:Fragment() {
@@ -27,9 +28,7 @@ class TutorialFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.tutorSkip?.setOnClickListener {
-            parentFragmentManager.beginTransaction().replace(R.id.container, SignUpFragment())
-                .addToBackStack(SignUpFragment.TAG)
-                .commit()
+            parentFragmentManager.openFragment(SignUpFragment(), SignUpFragment.TAG)
         }
         postToList()
         val viewPager2: ViewPager2? = binding?.viewPager2?.apply {

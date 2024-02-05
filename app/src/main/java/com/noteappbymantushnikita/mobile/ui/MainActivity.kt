@@ -4,21 +4,32 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import com.noteappbymantushnikita.mobile.R
-import com.noteappbymantushnikita.mobile.databinding.ActivityMainBinding
+import com.noteappbymantushnikita.mobile.util.openFragment
+import com.noteappbymantushnikita.mobile.repository.SharedPreferencesRepository
+import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
-        setContentView(binding.root)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, StartFragment())
-            .commit()
+        setContentView(R.layout.activity_main)
+        when {
+            SharedPreferencesRepository.isFirstLaunch() -> {
+                supportFragmentManager.openFragment(StartFragment())
+                SharedPreferencesRepository.setIsFirstLaunch()
+            }
+
+            SharedPreferencesRepository.getUserEmail() == null -> {
+                supportFragmentManager.openFragment(LogInFragment())
+            }
+
+            else -> {
+                supportFragmentManager.openFragment(NoteListFragment())
+            }
+        }
     }
 }

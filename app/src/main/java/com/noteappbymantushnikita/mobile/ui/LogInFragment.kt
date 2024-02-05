@@ -9,8 +9,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentLoginBinding
+import com.noteappbymantushnikita.mobile.util.openFragment
+import com.noteappbymantushnikita.mobile.repository.SharedPreferencesRepository
 import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
-import com.noteappbymantushnikita.mobile.validateNote
+import com.noteappbymantushnikita.mobile.util.validation.ValidationResult
+import com.noteappbymantushnikita.mobile.util.setValidation
+import com.noteappbymantushnikita.mobile.util.validation.validateEmptyField
 
 class LogInFragment : Fragment() {
 
@@ -26,45 +30,42 @@ class LogInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.returnSignupTitle?.setOnClickListener {
-            parentFragmentManager.beginTransaction().replace(R.id.container, SignUpFragment())
-                .addToBackStack(SignUpFragment.TAG)
-                .commit()
-        }
-        binding?.loginEmailEdit?.doAfterTextChanged {
-            validateLoginInput()
-        }
-        binding?.loginPasswordEdit?.doAfterTextChanged {
-            validateLoginInput()
-        }
-        binding?.loginButton?.setOnClickListener {
-            if (validateLoginInput()) {
-                Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_LONG)
-                    .show()
-                parentFragmentManager.beginTransaction().replace(R.id.container, NoteListFragment())
-                    .addToBackStack(SignUpFragment.TAG)
-                    .commit()
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
-                    .show()
+        binding?.run {
+            returnSignupTitle.setOnClickListener {
+                parentFragmentManager.openFragment(SignUpFragment(), SignUpFragment.TAG)
+            }
+            loginButton.setOnClickListener {
+                if (validate()) {
+                    Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_LONG)
+                        .show()
+                    val email = loginEmailEdit.text.toString()
+                    SharedPreferencesRepository.setUserEmail(email)
+                    parentFragmentManager.openFragment(NoteListFragment(), NoteListFragment.TAG)
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
+                        .show()
+                }
+            }
+            loginEmailEdit.doAfterTextChanged {
+                validate()
+            }
+            loginPasswordEdit.doAfterTextChanged {
+                validate()
             }
         }
     }
 
-    private fun validateLoginInput(): Boolean {
-        val isEmailValid =
-            validateNote(
-                requireContext(),
-                binding?.loginEmailInput,
-                binding?.loginEmailEdit?.text.toString()
+    private fun validate(): Boolean {
+        val inputs = binding?.run {
+            listOf(
+                loginEmailInput to validateEmptyField(loginEmailInput.editText?.text.toString()),
+                loginPasswordInput to validateEmptyField(loginPasswordInput.editText?.text.toString())
             )
-        val isPasswordValid =
-            validateNote(
-                requireContext(),
-                binding?.loginPasswordInput,
-                binding?.loginPasswordEdit?.text.toString()
-            )
-        return isEmailValid && isPasswordValid
+        }
+        inputs?.forEach { (input, validation) ->
+            input.setValidation(validation)
+        }
+        return inputs?.all { (_, validation) -> validation is ValidationResult.Valid } ?: false
     }
 
     companion object {
