@@ -1,4 +1,4 @@
-package com.noteappbymantushnikita.mobile
+package com.noteappbymantushnikita.mobile.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.noteappbymantushnikita.mobile.R
+import com.noteappbymantushnikita.mobile.ViewPagerAdapter
 import com.noteappbymantushnikita.mobile.databinding.FragmentTutorialBinding
 import me.relex.circleindicator.CircleIndicator3
 

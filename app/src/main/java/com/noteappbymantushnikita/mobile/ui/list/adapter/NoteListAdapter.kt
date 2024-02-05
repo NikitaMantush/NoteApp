@@ -1,4 +1,4 @@
-package com.noteappbymantushnikita.mobile.noteAdapter
+package com.noteappbymantushnikita.mobile.ui.list.adapter
 
 
 import android.view.LayoutInflater

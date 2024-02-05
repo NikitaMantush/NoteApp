@@ -1,9 +1,9 @@
-package com.noteappbymantushnikita.mobile
+package com.noteappbymantushnikita.mobile.ui
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
