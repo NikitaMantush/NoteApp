@@ -19,7 +19,9 @@ import com.noteappbymantushnikita.mobile.util.setValidation
 import com.noteappbymantushnikita.mobile.util.toDate
 import com.noteappbymantushnikita.mobile.util.validation.ValidationResult
 import com.noteappbymantushnikita.mobile.util.validation.validateEmptyField
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddNoteFragment : Fragment() {
 
     private var binding: FragmentAddNoteBinding? = null
