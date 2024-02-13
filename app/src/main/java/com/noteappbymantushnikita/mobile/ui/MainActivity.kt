@@ -7,8 +7,14 @@ import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.repository.SharedPreferencesRepository
 import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,12 +24,12 @@ class MainActivity : AppCompatActivity() {
         )
         setContentView(R.layout.activity_main)
         when {
-            SharedPreferencesRepository.isFirstLaunch() -> {
+            sharedPreferencesRepository.isFirstLaunch() -> {
                 supportFragmentManager.openFragment(StartFragment())
-                SharedPreferencesRepository.setIsFirstLaunch()
+                sharedPreferencesRepository.setIsFirstLaunch()
             }
 
-            SharedPreferencesRepository.getUserEmail() == null -> {
+            sharedPreferencesRepository.getUserEmail() == null -> {
                 supportFragmentManager.openFragment(LogInFragment())
             }
 

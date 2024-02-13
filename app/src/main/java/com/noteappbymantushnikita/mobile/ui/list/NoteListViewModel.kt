@@ -4,17 +4,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.noteappbymantushnikita.mobile.model.Note
 import com.noteappbymantushnikita.mobile.repository.NoteRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class NoteListViewModel: ViewModel() {
+@HiltViewModel
+class NoteListViewModel @Inject constructor (
+    private val repository: NoteRepository
+): ViewModel() {
 
     val listNote = MutableLiveData<ArrayList<Note>>()
 
-    private val repository = NoteRepository()
     fun loadListNote() {
         listNote.value = repository.getNoteList()
     }
-    fun deleteNote(note: Note){
-        repository.deleteNote(note)
+    fun deleteNote(noteId: Int){
+        repository.deleteNote(noteId)
         loadListNote()
     }
 }

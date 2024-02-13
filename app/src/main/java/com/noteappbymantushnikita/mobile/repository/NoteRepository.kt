@@ -1,13 +1,17 @@
 package com.noteappbymantushnikita.mobile.repository
 
-import com.noteappbymantushnikita.mobile.db.DataBase
+import com.noteappbymantushnikita.mobile.db.NoteDao
 import com.noteappbymantushnikita.mobile.db.NoteEntity
 import com.noteappbymantushnikita.mobile.model.Note
+import java.util.Date
+import javax.inject.Inject
 
-class NoteRepository {
+class NoteRepository @Inject constructor(
+    private val noteDao: NoteDao
+) {
 
     fun getNoteList(): ArrayList<Note> {
-        return (DataBase.noteDao?.getAllNote()?.map {
+        return (noteDao.getAllNote().map {
             Note(
                 it.id, it.title, it.message, it.date
             )
@@ -15,7 +19,7 @@ class NoteRepository {
     }
 
     fun add(note: Note) {
-        DataBase.noteDao?.addNote(
+        noteDao.addNote(
             NoteEntity(
                 0,
                 note.title,
@@ -25,7 +29,10 @@ class NoteRepository {
         )
     }
 
-    fun deleteNote(note: Note) {
-        DataBase.noteDao?.deleteNote(NoteEntity(note.id, note.title, note.message, note.date))
+//    fun deleteNote(note: Note) {
+//        noteDao.deleteNote(NoteEntity(note.id, note.title, note.message, note.date))
+//    }
+    fun deleteNote(id: Int) {
+        noteDao.deleteNote(NoteEntity(id, "", "", Date()))
     }
 }

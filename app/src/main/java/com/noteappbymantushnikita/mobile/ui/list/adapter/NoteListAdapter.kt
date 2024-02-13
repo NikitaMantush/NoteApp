@@ -2,6 +2,7 @@ package com.noteappbymantushnikita.mobile.ui.list.adapter
 
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,7 +12,7 @@ import com.noteappbymantushnikita.mobile.model.Note
 
 class NoteListAdapter(
     private val onClick: (note: String) -> Unit,
-    private val onDeleteNoteSelected: (note: Note) -> Unit
+    private val onClickId: (id: Int, view: View) -> Unit
 ) : ListAdapter<Note, NoteViewHolder>(object : DiffUtil.ItemCallback<Note>() {
 
     override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
@@ -25,10 +26,13 @@ class NoteListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val context = parent.context
         val binding = ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NoteViewHolder(binding, context, onDeleteNoteSelected)
+        return NoteViewHolder(binding, context)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        holder.bind(getItem(position), onClick)
+        holder.bind(getItem(position), onClick, onClickId)
+//        holder.itemView.setOnClickListener{
+//            onClickId(getItem(position).id, holder.itemView.findViewById(R.id.options_button))
+//        }
     }
 }

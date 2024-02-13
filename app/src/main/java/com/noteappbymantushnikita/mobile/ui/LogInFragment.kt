@@ -15,8 +15,13 @@ import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
 import com.noteappbymantushnikita.mobile.util.validation.ValidationResult
 import com.noteappbymantushnikita.mobile.util.setValidation
 import com.noteappbymantushnikita.mobile.util.validation.validateEmptyField
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LogInFragment : Fragment() {
+    @Inject
+    lateinit var sharedPreferencesRepository: SharedPreferencesRepository
 
     private var binding: FragmentLoginBinding? = null
     override fun onCreateView(
@@ -39,7 +44,7 @@ class LogInFragment : Fragment() {
                     Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_LONG)
                         .show()
                     val email = loginEmailEdit.text.toString()
-                    SharedPreferencesRepository.setUserEmail(email)
+                    sharedPreferencesRepository.setUserEmail(email)
                     parentFragmentManager.openFragment(NoteListFragment(), NoteListFragment.TAG)
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
