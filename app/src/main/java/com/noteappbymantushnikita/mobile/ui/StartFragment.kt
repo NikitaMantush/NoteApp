@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentStartBinding
+import com.noteappbymantushnikita.mobile.util.openFragment
 
 class StartFragment: Fragment() {
 
@@ -21,15 +21,13 @@ class StartFragment: Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.mainLoginTitle?.setOnClickListener {
-            parentFragmentManager.beginTransaction().replace(R.id.container, LogInFragment())
-                .addToBackStack(LogInFragment.TAG)
-                .commit()
-        }
-        binding?.discoverPlatformButton?.setOnClickListener{
-            parentFragmentManager.beginTransaction().replace(R.id.container, TutorialFragment())
-                .addToBackStack(TutorialFragment.TAG)
-                .commit()
+        binding?.run {
+            mainLoginTitle.setOnClickListener {
+               parentFragmentManager.openFragment(LogInFragment())
+            }
+            discoverPlatformButton.setOnClickListener{
+                parentFragmentManager.openFragment(TutorialFragment())
+            }
         }
     }
 }

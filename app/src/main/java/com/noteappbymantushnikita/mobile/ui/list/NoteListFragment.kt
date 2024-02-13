@@ -8,9 +8,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentNoteListBinding
+import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.model.Note
+import com.noteappbymantushnikita.mobile.repository.SharedPreferencesRepository
 import com.noteappbymantushnikita.mobile.ui.note.AddNoteFragment
 import com.noteappbymantushnikita.mobile.ui.LogInFragment
 import com.noteappbymantushnikita.mobile.ui.list.adapter.NoteListAdapter
@@ -35,17 +36,12 @@ class NoteListFragment : Fragment() {
         binding?.run {
 
             logoutButton.setOnClickListener {
-                parentFragmentManager.beginTransaction().replace(R.id.container, LogInFragment())
-                    .addToBackStack(LogInFragment.TAG)
-                    .commit()
+                SharedPreferencesRepository.logout()
+                parentFragmentManager.openFragment(LogInFragment(),LogInFragment.TAG)
             }
-
             addNoteButton.setOnClickListener {
-                parentFragmentManager.beginTransaction().replace(R.id.container, AddNoteFragment())
-                    .addToBackStack(AddNoteFragment.TAG)
-                    .commit()
+                parentFragmentManager.openFragment(AddNoteFragment(),AddNoteFragment.TAG)
             }
-
         }
         viewModel.listNote.observe(viewLifecycleOwner) { listNote ->
             setListNote(listNote)
@@ -63,7 +59,6 @@ class NoteListFragment : Fragment() {
                     },
                     onDeleteNoteSelected = { note ->
                         viewModel.deleteNote(note)
-                        viewModel.loadListNote()
                     })
             }
             (adapter as? NoteListAdapter)?.submitList(listNote)

@@ -1,7 +1,5 @@
 package com.noteappbymantushnikita.mobile.ui.note
 
-import android.app.DatePickerDialog
-import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,12 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentAddNoteBinding
+import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.model.Note
-import com.noteappbymantushnikita.mobile.repository.NoteRepository
 import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
-import com.noteappbymantushnikita.mobile.validateNote
-import java.util.Date
-import java.util.Locale
+import com.noteappbymantushnikita.mobile.util.date.DateUtils
+import com.noteappbymantushnikita.mobile.util.setValidation
+import com.noteappbymantushnikita.mobile.util.toDate
+import com.noteappbymantushnikita.mobile.util.validation.ValidationResult
+import com.noteappbymantushnikita.mobile.util.validation.validateEmptyField
 
 class AddNoteFragment : Fragment() {
 
@@ -44,89 +44,51 @@ class AddNoteFragment : Fragment() {
         binding?.run {
 
             setDateButton.setOnClickListener {
-                showDatePickerDialog()
+                DateUtils.showDatePickerDialog(requireContext(), setDateButton, calendar)
             }
-
             backButtonAddNoteActivity.setOnClickListener {
-                parentFragmentManager.beginTransaction().replace(R.id.container, NoteListFragment())
-                    .addToBackStack(NoteListFragment.TAG)
-                    .commit()
+                parentFragmentManager.openFragment(NoteListFragment(), NoteListFragment.TAG)
             }
 
             addButton.setOnClickListener {
-                if (validateNoteInput()) {
+                if (validate()) {
                     Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_LONG)
                         .show()
                     val newNote = Note(
-                        id = NoteRepository.id,
+                        0,
                         title = binding?.noteTitle?.text.toString(),
                         message = binding?.noteMessage?.text.toString(),
-                        date = binding?.setDateButton?.text.toString()
+                        date = binding?.setDateButton?.text.toString().toDate()
                     )
                     viewModel.addNote(newNote)
-                    parentFragmentManager.beginTransaction()
-                        .replace(R.id.container, NoteListFragment())
-                        .addToBackStack(NoteListFragment.TAG)
-                        .commit()
+                    parentFragmentManager.openFragment(NoteListFragment(), NoteListFragment.TAG)
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
                         .show()
                 }
             }
-
             noteTitle.doAfterTextChanged {
-                validateNoteInput()
+                validate()
             }
 
             noteMessage.doAfterTextChanged {
-                validateNoteInput()
+                validate()
             }
-            setDateButton.text = setCurrentDate()
+            setDateButton.text = DateUtils.setCurrentDate()
         }
     }
-
-    private fun validateNoteInput(): Boolean {
-        val isValidTitle =
-            validateNote(
-                requireContext(),
-                binding?.noteTitleLayout,
-                binding?.noteTitle?.text.toString()
+    private fun validate(): Boolean {
+        val inputs = binding?.run {
+            listOf(
+                noteTitleLayout to validateEmptyField(noteTitleLayout.editText?.text.toString()),
+                noteMessageLayout to validateEmptyField(noteMessageLayout.editText?.text.toString())
             )
-        val isValidMessage =
-            validateNote(
-                requireContext(),
-                binding?.noteMessageLayout,
-                binding?.noteMessage?.text.toString()
-            )
-        return isValidTitle && isValidMessage
-    }
+        }
 
-    private fun showDatePickerDialog() {
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, year, monthOfYear, dayOfMonth ->
-                val selectedDate = Calendar.getInstance().apply {
-                    set(Calendar.YEAR, year)
-                    set(Calendar.MONTH, monthOfYear)
-                    set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                }
-                updateSelectedDate(selectedDate)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePickerDialog.show()
-    }
-
-    private fun updateSelectedDate(selectedDate: Calendar) {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        binding?.setDateButton?.text = dateFormat.format(selectedDate.time)
-    }
-
-    private fun setCurrentDate(): String {
-        val currentDate: Date = Calendar.getInstance().time
-        return SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(currentDate)
+        inputs?.forEach { (input, validation) ->
+            input.setValidation(validation)
+        }
+        return inputs?.all { (_, validation) -> validation is ValidationResult.Valid } ?: false
     }
 
     companion object {

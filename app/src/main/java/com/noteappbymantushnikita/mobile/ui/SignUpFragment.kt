@@ -9,12 +9,15 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentSignupBinding
+import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
-import com.noteappbymantushnikita.mobile.validateEmail
-import com.noteappbymantushnikita.mobile.validateName
-import com.noteappbymantushnikita.mobile.validatePassword
+import com.noteappbymantushnikita.mobile.util.validation.ValidationResult
+import com.noteappbymantushnikita.mobile.util.setValidation
+import com.noteappbymantushnikita.mobile.util.validation.validateEmail
+import com.noteappbymantushnikita.mobile.util.validation.validateName
+import com.noteappbymantushnikita.mobile.util.validation.validatePassword
 
-class SignUpFragment: Fragment() {
+class SignUpFragment : Fragment() {
     private var binding: FragmentSignupBinding? = null
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,59 +30,56 @@ class SignUpFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.signupLoginTitle?.setOnClickListener {
-            parentFragmentManager.beginTransaction().replace(R.id.container, LogInFragment())
-                .addToBackStack(LogInFragment.TAG)
-                .commit()
-        }
-        binding?.signupFirstNameEdit?.doAfterTextChanged {
-            validateSignupInput()
-        }
-        binding?.signupLastNameEdit?.doAfterTextChanged {
-            validateSignupInput()
-        }
-        binding?.signupEmailEdit?.doAfterTextChanged {
-            validateSignupInput()
-        }
-        binding?.signupPasswordEdit?.doAfterTextChanged {
-            validateSignupInput()
-        }
-        binding?.signupButton?.setOnClickListener {
-            if (validateSignupInput()) {
-                Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_LONG).show()
-                parentFragmentManager.beginTransaction().replace(R.id.container, NoteListFragment())
-                    .addToBackStack(NoteListFragment.TAG)
-                    .commit()
-
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG).show()
+        binding?.run {
+            signupLoginTitle.setOnClickListener {
+                parentFragmentManager.openFragment(LogInFragment(), LogInFragment.TAG)
+            }
+            signupFirstNameEdit.doAfterTextChanged {
+                validate()
+            }
+            signupLastNameEdit.doAfterTextChanged {
+                validate()
+            }
+            signupEmailEdit.doAfterTextChanged {
+                validate()
+            }
+            signupPasswordEdit.doAfterTextChanged {
+                validate()
+            }
+            signupButton.setOnClickListener {
+                if (validate()) {
+                    Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_LONG)
+                        .show()
+                    parentFragmentManager.openFragment(NoteListFragment(), NoteListFragment.TAG)
+                } else {
+                    Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
+                        .show()
+                }
             }
         }
+
     }
-    private fun validateSignupInput(): Boolean {
-        val isEmailValid = validateEmail(
-            requireContext(),
-            binding?.signupEmailInput,
-            binding?.signupEmailEdit?.text.toString()
-        )
-        val isPasswordValid = validatePassword(
-            requireContext(),
-            binding?.signupPasswordInput,
-            binding?.signupPasswordEdit?.text.toString()
-        )
-        val isFirstNameValid = validateName(
-            requireContext(),
-            binding?.signupFirstNameInput,
-            binding?.signupFirstNameEdit?.text.toString()
-        )
-        val isLastNameValid = validateName(
-            requireContext(),
-            binding?.signupLastNameInput,
-            binding?.signupLastNameEdit?.text.toString()
-        )
-        return isEmailValid && isPasswordValid && isFirstNameValid && isLastNameValid
+
+    private fun validate(): Boolean {
+        val inputs = binding?.run {
+            listOf(
+                signupEmailInput to validateEmail(signupEmailInput.editText?.text.toString()),
+                signupPasswordInput to validatePassword(signupPasswordInput.editText?.text.toString()),
+                signupFirstNameInput to validateName(signupFirstNameInput.editText?.text.toString()),
+                signupLastNameInput to validateName(signupLastNameInput.editText?.text.toString())
+            )
+        }
+
+        inputs?.forEach { (input, validation) ->
+            input.setValidation(validation)
+        }
+
+        return inputs?.all { (_, validation) -> validation is ValidationResult.Valid } ?: false
     }
-    companion object{
+
+
+
+    companion object {
 
         const val TAG = "SignUpFragment"
 
