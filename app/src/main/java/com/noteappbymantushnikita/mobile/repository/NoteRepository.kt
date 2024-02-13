@@ -10,7 +10,7 @@ class NoteRepository @Inject constructor(
     private val noteDao: NoteDao
 ) {
 
-    fun getNoteList(): ArrayList<Note> {
+    suspend fun getNoteList(): ArrayList<Note> {
         return (noteDao.getAllNote().map {
             Note(
                 it.id, it.title, it.message, it.date
@@ -18,7 +18,7 @@ class NoteRepository @Inject constructor(
         } as? ArrayList<Note>) ?: arrayListOf()
     }
 
-    fun add(note: Note) {
+    suspend fun add(note: Note) {
         noteDao.addNote(
             NoteEntity(
                 0,
@@ -32,7 +32,7 @@ class NoteRepository @Inject constructor(
 //    fun deleteNote(note: Note) {
 //        noteDao.deleteNote(NoteEntity(note.id, note.title, note.message, note.date))
 //    }
-    fun deleteNote(id: Int) {
+    suspend fun deleteNote(id: Int) {
         noteDao.deleteNote(NoteEntity(id, "", "", Date()))
     }
 }

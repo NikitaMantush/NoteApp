@@ -35,4 +35,11 @@
     <string name="view">View</string>
     <string name="options">Options</string>
     <string name="show">Show</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_warning">Are you sure you want to delete?</string>
+    <string name="logout_warning">Are you sure you want to log out?</string>
 </resources>

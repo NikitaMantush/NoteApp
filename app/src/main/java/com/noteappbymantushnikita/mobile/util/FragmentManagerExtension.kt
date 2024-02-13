@@ -15,3 +15,8 @@ fun FragmentManager.openFragment(fragment: Fragment) {
         .replace(R.id.container, fragment)
         .commit()
 }
+fun FragmentManager.openFragmentWithBottomMenu(fragment: Fragment) {
+    this.beginTransaction()
+        .replace(R.id.child_container, fragment)
+        .commit()
+}

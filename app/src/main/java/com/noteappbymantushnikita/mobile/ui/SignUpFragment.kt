@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentSignupBinding
 import com.noteappbymantushnikita.mobile.util.openFragment
-import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
 import com.noteappbymantushnikita.mobile.util.validation.ValidationResult
 import com.noteappbymantushnikita.mobile.util.setValidation
 import com.noteappbymantushnikita.mobile.util.validation.validateEmail
@@ -50,7 +49,7 @@ class SignUpFragment : Fragment() {
                 if (validate()) {
                     Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_LONG)
                         .show()
-                    parentFragmentManager.openFragment(NoteListFragment(), NoteListFragment.TAG)
+                    parentFragmentManager.openFragment(MainFragment())
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
                         .show()

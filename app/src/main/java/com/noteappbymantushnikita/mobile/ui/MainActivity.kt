@@ -6,7 +6,6 @@ import android.view.WindowManager
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.repository.SharedPreferencesRepository
-import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,13 +27,11 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.openFragment(StartFragment())
                 sharedPreferencesRepository.setIsFirstLaunch()
             }
-
             sharedPreferencesRepository.getUserEmail() == null -> {
                 supportFragmentManager.openFragment(LogInFragment())
             }
-
             else -> {
-                supportFragmentManager.openFragment(NoteListFragment())
+                supportFragmentManager.openFragment(MainFragment())
             }
         }
     }

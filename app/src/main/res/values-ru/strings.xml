@@ -34,5 +34,11 @@
     <string name="view">Просмотр</string>
     <string name="options">Опции</string>
     <string name="show">Посмотреть</string>
-
+    <string name="profile">Профиль</string>
+    <string name="search">Поиск</string>
+    <string name="home">Дом</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="delete_warning">Вы уверены что хотите удалить?</string>
+    <string name="logout_warning">Вы уверены что хотите выйти?</string>
 </resources>

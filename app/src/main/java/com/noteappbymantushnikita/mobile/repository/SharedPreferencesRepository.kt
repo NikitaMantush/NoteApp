@@ -13,6 +13,7 @@ private const val IS_FIRST_LAUNCH = "is_first_launch"
 private const val USER_EMAIL = "user_email"
 @Singleton
 class SharedPreferencesRepository @Inject constructor(@ApplicationContext context: Context) {
+
     private val sharedPreferences: SharedPreferences
 
     private val userPreferences: SharedPreferences

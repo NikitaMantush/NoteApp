@@ -3,19 +3,14 @@ package com.noteappbymantushnikita.mobile.ui.list.adapter
 import android.content.Context
 import android.text.TextUtils
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.noteappbymantushnikita.mobile.R
-import com.noteappbymantushnikita.mobile.R.*
 import com.noteappbymantushnikita.mobile.databinding.ItemNoteBinding
 import com.noteappbymantushnikita.mobile.model.Note
 import com.noteappbymantushnikita.mobile.util.date.getSimpleDate
-import com.noteappbymantushnikita.mobile.util.truncateToDay
-import java.util.Calendar
 
 class NoteViewHolder(
     private val binding: ItemNoteBinding,
-    private val context: Context,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(
         note: Note,
@@ -41,8 +36,6 @@ class NoteViewHolder(
             }
         }
         binding.dateTextView.text = note.date.getSimpleDate()
-
-        setItemBackgroundColor(context, note)
     }
 
     private fun toggleEllipsize() {
@@ -55,19 +48,6 @@ class NoteViewHolder(
                 ellipsize = TextUtils.TruncateAt.END
             }
         }
-    }
-
-    private fun setItemBackgroundColor(context: Context, note: Note) {
-        val todayDate = Calendar.getInstance().apply { truncateToDay() }.time
-        val noteDate = Calendar.getInstance().apply { time = note.date; truncateToDay() }.time
-
-        val colorResId = when {
-            noteDate < todayDate -> color.error
-            noteDate == todayDate -> color.green
-            else -> color.list_item_color
-        }
-
-        binding.root.setBackgroundColor(ContextCompat.getColor(context, colorResId))
     }
 
 }
