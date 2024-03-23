@@ -10,3 +10,4 @@ fun String.toDate(): Date {
     val dateFormat = SimpleDateFormat(DateUtils.SIMPLE_DATE_PATTERN, Locale.getDefault())
     return dateFormat.parse(this)
 }
+

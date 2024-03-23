@@ -9,11 +9,10 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentAddNoteBinding
-import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.model.Note
-import com.noteappbymantushnikita.mobile.ui.MainFragment
 import com.noteappbymantushnikita.mobile.util.date.DateUtils
 import com.noteappbymantushnikita.mobile.util.setValidation
 import com.noteappbymantushnikita.mobile.util.toDate
@@ -49,7 +48,7 @@ class AddNoteFragment : Fragment() {
                 DateUtils.showDatePickerDialog(requireContext(), setDateButton, calendar)
             }
             backButtonAddNoteActivity.setOnClickListener {
-                requireActivity().supportFragmentManager.openFragment(MainFragment())
+                findNavController().navigate(R.id.action_addNoteFragment_to_home)
             }
 
             addButton.setOnClickListener {
@@ -63,7 +62,7 @@ class AddNoteFragment : Fragment() {
                         date = binding?.setDateButton?.text.toString().toDate()
                     )
                     viewModel.addNote(newNote)
-                    requireActivity().supportFragmentManager.openFragment(MainFragment())
+                    findNavController().navigate(R.id.action_addNoteFragment_to_home)
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
                         .show()

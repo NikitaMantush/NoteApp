@@ -12,17 +12,21 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentNoteListBinding
-import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.model.Note
 import com.noteappbymantushnikita.mobile.repository.SharedPreferencesRepository
 import com.noteappbymantushnikita.mobile.ui.note.AddNoteFragment
 import com.noteappbymantushnikita.mobile.ui.LogInFragment
+import com.noteappbymantushnikita.mobile.ui.MainFragmentDirections
 import com.noteappbymantushnikita.mobile.ui.list.adapter.NoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -57,10 +61,7 @@ class NoteListFragment : Fragment() {
                 logoutDialog()
             }
             addNoteButton.setOnClickListener {
-                requireActivity().supportFragmentManager.openFragment(
-                    AddNoteFragment(),
-                    AddNoteFragment.TAG
-                )
+                findNavController().navigate(NoteListFragmentDirections.actionHomeToAddNoteFragment())
             }
         }
         viewModel.listNote.observe(viewLifecycleOwner) { listNote ->
@@ -91,10 +92,11 @@ class NoteListFragment : Fragment() {
             .setTitle(R.string.logout)
             .setIcon(R.drawable.ic_logout)
             .setMessage(R.string.logout_warning)
-            .setPositiveButton(R.string.yes){_,_ ->
-                requireActivity().supportFragmentManager.openFragment(LogInFragment())
+            .setPositiveButton(R.string.yes) { _, _ ->
+                requireActivity().findNavController(R.id.main_nav)
+                    .navigate(MainFragmentDirections.actionMainFragmentToLogInFragment())
             }
-            .setNegativeButton(R.string.no){_,_ ->
+            .setNegativeButton(R.string.no) { _, _ ->
                 //do nothing
             }
             .show()

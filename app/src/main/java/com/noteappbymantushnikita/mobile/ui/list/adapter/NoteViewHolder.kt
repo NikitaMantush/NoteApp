@@ -1,6 +1,5 @@
 package com.noteappbymantushnikita.mobile.ui.list.adapter
 
-import android.content.Context
 import android.text.TextUtils
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

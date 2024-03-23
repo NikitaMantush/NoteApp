@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentSignupBinding
-import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.util.validation.ValidationResult
 import com.noteappbymantushnikita.mobile.util.setValidation
 import com.noteappbymantushnikita.mobile.util.validation.validateEmail
@@ -31,7 +31,7 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.run {
             signupLoginTitle.setOnClickListener {
-                parentFragmentManager.openFragment(LogInFragment(), LogInFragment.TAG)
+                findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToLogInFragment())
             }
             signupFirstNameEdit.doAfterTextChanged {
                 validate()
@@ -49,7 +49,7 @@ class SignUpFragment : Fragment() {
                 if (validate()) {
                     Toast.makeText(requireContext(), getString(R.string.success), Toast.LENGTH_LONG)
                         .show()
-                    parentFragmentManager.openFragment(MainFragment())
+                    findNavController().navigate(SignUpFragmentDirections.actionSignUpFragmentToMainFragment())
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
                         .show()
@@ -75,8 +75,6 @@ class SignUpFragment : Fragment() {
 
         return inputs?.all { (_, validation) -> validation is ValidationResult.Valid } ?: false
     }
-
-
 
     companion object {
 

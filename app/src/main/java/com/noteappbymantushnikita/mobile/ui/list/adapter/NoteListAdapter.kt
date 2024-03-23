@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.noteappbymantushnikita.mobile.databinding.ItemNoteBinding
 import com.noteappbymantushnikita.mobile.model.Note
+import com.noteappbymantushnikita.mobile.ui.list.adapter.NoteViewHolder
 
 
 class NoteListAdapter(
@@ -24,9 +25,8 @@ class NoteListAdapter(
     }
 }) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val context = parent.context
         val binding = ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NoteViewHolder(binding, context)
+        return NoteViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {

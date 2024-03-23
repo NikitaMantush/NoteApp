@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -58,6 +59,9 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     ksp("com.google.dagger:hilt-android-compiler:2.50")
 
+    val nav_version = "2.7.7"
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     testImplementation("junit:junit:4.13.2")
     implementation ("com.ibm.icu:icu4j:67.1")
