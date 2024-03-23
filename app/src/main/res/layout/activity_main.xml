@@ -1,55 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.NoteApp"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
+    <fragment
+        android:id="@+id/main_nav"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/graph_main" />
 
-    <TextView
-        android:id="@+id/application_logo"
-        style="@style/TextViewLogo"
-        android:layout_width="@dimen/logo_width"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        app:layout_constraintBottom_toTopOf="@id/discover_platform_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <FrameLayout-->
+<!--        android:id="@+id/container"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
-    <TextView
-        android:id="@+id/account_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/account_check"
-        style="@style/Login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/maim_login_title"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-       />
-
-    <TextView
-        android:id="@+id/maim_login_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        style="@style/Login.bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/account_check" />
-
-    <Button
-        android:id="@+id/discover_platform_button"
-        android:layout_width="@dimen/common_button_width"
-        android:layout_height="@dimen/common_button_height"
-        android:text="@string/discover_platform"
-        app:layout_constraintBottom_toTopOf="@id/account_check"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        style="@style/DiscoverPlatformButton"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

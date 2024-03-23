@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color">
+
+    <TextView
+        android:id="@+id/profile_textView"
+        style="@style/ProfileTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_50"
+        android:text="@string/profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/profile_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_18"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_textView" />
+
+    <TextView
+        android:id="@+id/name_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_50"
+        app:layout_constraintStart_toEndOf="@id/profile_imageView"
+        app:layout_constraintTop_toBottomOf="@id/profile_textView"
+        tools:text="Name" />
+
+    <TextView
+        android:id="@+id/position_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_18"
+        app:layout_constraintStart_toEndOf="@id/profile_imageView"
+        app:layout_constraintTop_toBottomOf="@id/name_textView"
+        tools:text="Position" />
+
+    <TextView
+        android:id="@+id/description_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_imageView"
+        tools:text="Description"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
