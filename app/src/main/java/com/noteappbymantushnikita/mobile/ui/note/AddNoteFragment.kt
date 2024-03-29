@@ -13,7 +13,7 @@ import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentAddNoteBinding
 import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.model.Note
-import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
+import com.noteappbymantushnikita.mobile.ui.MainFragment
 import com.noteappbymantushnikita.mobile.util.date.DateUtils
 import com.noteappbymantushnikita.mobile.util.setValidation
 import com.noteappbymantushnikita.mobile.util.toDate
@@ -49,7 +49,7 @@ class AddNoteFragment : Fragment() {
                 DateUtils.showDatePickerDialog(requireContext(), setDateButton, calendar)
             }
             backButtonAddNoteActivity.setOnClickListener {
-                parentFragmentManager.openFragment(NoteListFragment(), NoteListFragment.TAG)
+                requireActivity().supportFragmentManager.openFragment(MainFragment())
             }
 
             addButton.setOnClickListener {
@@ -63,7 +63,7 @@ class AddNoteFragment : Fragment() {
                         date = binding?.setDateButton?.text.toString().toDate()
                     )
                     viewModel.addNote(newNote)
-                    parentFragmentManager.openFragment(NoteListFragment(), NoteListFragment.TAG)
+                    requireActivity().supportFragmentManager.openFragment(MainFragment())
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
                         .show()

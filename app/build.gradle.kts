@@ -55,11 +55,13 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("com.google.dagger:hilt-android:2.50")
+    implementation("androidx.room:room-ktx:2.6.1")
     ksp("com.google.dagger:hilt-android-compiler:2.50")
+
 
     testImplementation("junit:junit:4.13.2")
     implementation ("com.ibm.icu:icu4j:67.1")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

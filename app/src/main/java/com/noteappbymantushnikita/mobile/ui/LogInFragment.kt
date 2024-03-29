@@ -11,7 +11,6 @@ import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentLoginBinding
 import com.noteappbymantushnikita.mobile.util.openFragment
 import com.noteappbymantushnikita.mobile.repository.SharedPreferencesRepository
-import com.noteappbymantushnikita.mobile.ui.list.NoteListFragment
 import com.noteappbymantushnikita.mobile.util.validation.ValidationResult
 import com.noteappbymantushnikita.mobile.util.setValidation
 import com.noteappbymantushnikita.mobile.util.validation.validateEmptyField
@@ -45,7 +44,7 @@ class LogInFragment : Fragment() {
                         .show()
                     val email = loginEmailEdit.text.toString()
                     sharedPreferencesRepository.setUserEmail(email)
-                    parentFragmentManager.openFragment(NoteListFragment(), NoteListFragment.TAG)
+                    parentFragmentManager.openFragment(MainFragment())
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.failed), Toast.LENGTH_LONG)
                         .show()

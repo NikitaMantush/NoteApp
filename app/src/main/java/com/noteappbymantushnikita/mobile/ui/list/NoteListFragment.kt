@@ -1,5 +1,6 @@
 package com.noteappbymantushnikita.mobile.ui.list
 
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -8,9 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.noteappbymantushnikita.mobile.R
 import com.noteappbymantushnikita.mobile.databinding.FragmentNoteListBinding
@@ -43,14 +47,20 @@ class NoteListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), RecyclerView.VERTICAL)
+        ResourcesCompat.getDrawable(resources, R.drawable.divider_item_decorator, null)
+            ?.let { dividerItemDecoration.setDrawable(it) }
         binding?.run {
-
+            recyclerView.addItemDecoration(dividerItemDecoration)
             logoutButton.setOnClickListener {
                 sharedPreferencesRepository.logout()
-                parentFragmentManager.openFragment(LogInFragment(), LogInFragment.TAG)
+                logoutDialog()
             }
             addNoteButton.setOnClickListener {
-                parentFragmentManager.openFragment(AddNoteFragment(), AddNoteFragment.TAG)
+                requireActivity().supportFragmentManager.openFragment(
+                    AddNoteFragment(),
+                    AddNoteFragment.TAG
+                )
             }
         }
         viewModel.listNote.observe(viewLifecycleOwner) { listNote ->
@@ -76,10 +86,27 @@ class NoteListFragment : Fragment() {
         }
     }
 
-    private fun createMenu(itemId: Int, view: View){
+    private fun logoutDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.logout)
+            .setIcon(R.drawable.ic_logout)
+            .setMessage(R.string.logout_warning)
+            .setPositiveButton(R.string.yes){_,_ ->
+                requireActivity().supportFragmentManager.openFragment(LogInFragment())
+            }
+            .setNegativeButton(R.string.no){_,_ ->
+                //do nothing
+            }
+            .show()
+    }
+
+    private fun createMenu(itemId: Int, view: View) {
         val popup = PopupMenu(requireContext(), view, Gravity.END)
         val inflater: MenuInflater = popup.menuInflater
         inflater.inflate(R.menu.menu_item, popup.menu)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            popup.setForceShowIcon(true)
+        }
         popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.show -> {
@@ -94,15 +121,16 @@ class NoteListFragment : Fragment() {
 
                 R.id.delete -> {
                     MaterialAlertDialogBuilder(requireContext())
-                        .setTitle("Delete?")
-                        .setPositiveButton("Yes") { _, _ ->
+                        .setTitle(R.string.delete)
+                        .setIcon(R.drawable.ic_warning)
+                        .setMessage(R.string.delete_warning)
+                        .setPositiveButton(R.string.yes) { _, _ ->
                             viewModel.deleteNote(itemId)
                         }
-                        .setNegativeButton("No") { _, _ ->
+                        .setNegativeButton(R.string.no) { _, _ ->
                             //do nothing
                         }
                         .show()
-
                 }
             }
             return@OnMenuItemClickListener true
